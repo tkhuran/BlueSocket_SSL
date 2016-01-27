@@ -10,10 +10,12 @@
 #if os(OSX) || os(iOS) || os(tvOS) || os(watchOS)
 	import Darwin
 	import Foundation
+    import CCrypto
 #elseif os(Linux)
 	import Foundation
 	import Glibc
 #endif
+
 
 // MARK: ETSocketError
 
@@ -243,6 +245,11 @@ public class ETSocket: ETReader, ETWriter {
 	/// True if this socket is listening.
 	///
 	public private(set) var listening: Bool = false
+    
+    ///
+    /// True if this socket is SSL.
+    ///
+    public private(set) var isSSL: Bool = false
 
 	///
 	/// The remote host name this socket is connected to. (Readonly)
@@ -259,7 +266,22 @@ public class ETSocket: ETReader, ETWriter {
 	///
 	public private(set) var socketfd: Int32 = Int32(SOCKET_INVALID_DESCRIPTOR)
 
+    ///
+    /// The file descriptor representing the SSL socket. (Readonly)
+    ///
+    public private(set) var sslsocketfd: Int32 = Int32(SOCKET_INVALID_DESCRIPTOR)
 
+    
+    /// 
+    /// SSL context
+    ///
+    public private(set) var sslctx: UnsafeMutablePointer<ssl_ctx_st> = nil
+    
+    ///
+    /// SSL state
+    ///
+    public private(set) var cssl: UnsafeMutablePointer<ssl_st> = nil
+    
 	// MARK: Class Methods
 
 	///
@@ -285,6 +307,43 @@ public class ETSocket: ETReader, ETWriter {
 
 		return try ETSocket(family: family, type: type, proto: proto)
 	}
+    
+    ///
+    /// Initialize the libSSL library
+    public func initSSL() {
+        
+        SSL_load_error_strings()
+        SSL_library_init()
+        OPENSSL_add_all_algorithms_noconf()
+        
+    }
+    
+    public func createSSLContext() {
+        
+        sslctx = SSL_CTX_new( SSLv23_server_method() )
+        SSL_CTX_ctrl( sslctx, SSL_CTRL_OPTIONS, SSL_OP_SINGLE_DH_USE, nil)
+        let use_cert = SSL_CTX_use_certificate_file(sslctx, "./serverCertificate.pem", SSL_FILETYPE_PEM)
+        if use_cert <= 0 {
+            print("Could not use certificate file")
+        }
+        
+        let use_prv = SSL_CTX_use_PrivateKey_file(sslctx, "./key.pem", SSL_FILETYPE_PEM)
+        if use_prv <= 0 {
+            print("Could not use private key")
+        }
+        
+        self.cssl = SSL_new(sslctx)
+        
+        SSL_set_fd(cssl, sslsocketfd)
+        
+        let ssl_err = SSL_accept(cssl)
+        
+        if ssl_err <= 0 {
+            print("Error code \(ssl_err): Problem setting up SSL socket)")
+        }
+        
+        
+    }
 
 	///
 	/// Extract the dotted IP address from an in_addr struct.
@@ -326,6 +385,7 @@ public class ETSocket: ETReader, ETWriter {
 			self.socketfd = Int32(ETSocket.SOCKET_INVALID_DESCRIPTOR)
 			throw ETSocketError(code: ETSocket.SOCKET_ERR_UNABLE_TO_CREATE_SOCKET, reason: self.lastError())
 		}
+
 	}
 
 	// MARK: -- Private
@@ -348,6 +408,8 @@ public class ETSocket: ETReader, ETWriter {
 		}
 		self.remotePort = Int(remoteAddress.sin_port)
 		self.socketfd = fd
+        
+        initSSL()
 	}
 
 	deinit {
@@ -445,6 +507,12 @@ public class ETSocket: ETReader, ETWriter {
 		if let hostname = ETSocket.dottedIP(acceptAddr.sin_addr) {
 			self.remoteHostName = hostname
 		}
+        
+        // establish an SSL connection
+        if (isSSL) {
+            createSSLContext()
+        }
+        
 
 		// We're connected...
 		self.connected = true
@@ -823,16 +891,32 @@ public class ETSocket: ETReader, ETWriter {
 			throw ETSocketError(code: ETSocket.SOCKET_ERR_NOT_CONNECTED, reason: nil)
 		}
 
-		var sent = 0
+        var sent: Int = 0
 		let buffer = data.bytes
 		while sent < data.length {
 
-			let s = write(self.socketfd, buffer + sent, Int(data.length - sent))
-			if s <= 0 {
-
-				throw ETSocketError(code: ETSocket.SOCKET_ERR_WRITE_FAILED, reason: self.lastError())
-			}
-			sent += s
+            if isSSL {
+                
+                let s = Int(SSL_write(self.cssl, buffer + sent, Int32(data.length - sent)))
+                if s <= 0 {
+                    
+                    throw ETSocketError(code: ETSocket.SOCKET_ERR_WRITE_FAILED, reason: self.lastError())
+                }
+                sent += s
+                
+            } else {
+                
+                let s = write(self.socketfd, buffer + sent, Int(data.length - sent))
+                if s <= 0 {
+                    
+                    throw ETSocketError(code: ETSocket.SOCKET_ERR_WRITE_FAILED, reason: self.lastError())
+                }
+                sent += s
+                
+            }
+            
+			
+			
 		}
 	}
 
