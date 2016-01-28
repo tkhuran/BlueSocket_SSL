@@ -79,6 +79,9 @@ public class ETSocketError: ErrorType, CustomStringConvertible {
 public class ETSocket: ETReader, ETWriter {
 
 	// MARK: Constants
+	
+	public static let DEFAULT_SSL_CERTIFICATE				= "./serverCertificate.pem"
+	public static let DEFAULT_SSL_PRIVATE_KEY				= "./key.pem"
 
 	public static let ETSOCKET_DOMAIN						= "ETSocket.ErrorDomain"
 
@@ -117,6 +120,12 @@ public class ETSocket: ETReader, ETWriter {
 	public static let SOCKET_ERR_SET_FCNTL_FAILED			= -9980
 	public static let SOCKET_ERR_NOT_IMPLEMENTED			= -9979
 	public static let SOCKET_ERR_INTERNAL					= -9978
+	
+	// MARK: - SSL Error Codes
+	
+	public static let SSL_ERR_BAD_CERTIFICATE				= -8000
+	public static let SSL_ERR_BAD_PRIVATE_KEY				= -7999
+	public static let SSL_ERR_CONTEXT_CREATION				= -7998
 
 	// MARK: Enums
 
@@ -270,8 +279,7 @@ public class ETSocket: ETReader, ETWriter {
     /// The file descriptor representing the SSL socket. (Readonly)
     ///
     public private(set) var sslsocketfd: Int32 = Int32(SOCKET_INVALID_DESCRIPTOR)
-
-    
+	
     /// 
     /// SSL context
     ///
@@ -282,6 +290,7 @@ public class ETSocket: ETReader, ETWriter {
     ///
     public private(set) var cssl: UnsafeMutablePointer<ssl_st> = nil
     
+
 	// MARK: Class Methods
 
 	///
@@ -308,43 +317,6 @@ public class ETSocket: ETReader, ETWriter {
 		return try ETSocket(family: family, type: type, proto: proto)
 	}
     
-    ///
-    /// Initialize the libSSL library
-    public func initSSL() {
-        
-        SSL_load_error_strings()
-        SSL_library_init()
-        OPENSSL_add_all_algorithms_noconf()
-        
-    }
-    
-    public func createSSLContext() {
-        
-        sslctx = SSL_CTX_new( SSLv23_server_method() )
-        SSL_CTX_ctrl( sslctx, SSL_CTRL_OPTIONS, SSL_OP_SINGLE_DH_USE, nil)
-        let use_cert = SSL_CTX_use_certificate_file(sslctx, "./serverCertificate.pem", SSL_FILETYPE_PEM)
-        if use_cert <= 0 {
-            print("Could not use certificate file")
-        }
-        
-        let use_prv = SSL_CTX_use_PrivateKey_file(sslctx, "./key.pem", SSL_FILETYPE_PEM)
-        if use_prv <= 0 {
-            print("Could not use private key")
-        }
-        
-        self.cssl = SSL_new(sslctx)
-        
-        SSL_set_fd(cssl, sslsocketfd)
-        
-        let ssl_err = SSL_accept(cssl)
-        
-        if ssl_err <= 0 {
-            print("Error code \(ssl_err): Problem setting up SSL socket)")
-        }
-        
-        
-    }
-
 	///
 	/// Extract the dotted IP address from an in_addr struct.
 	///
@@ -409,7 +381,7 @@ public class ETSocket: ETReader, ETWriter {
 		self.remotePort = Int(remoteAddress.sin_port)
 		self.socketfd = fd
         
-        initSSL()
+        self.initSSL()
 	}
 
 	deinit {
@@ -423,7 +395,52 @@ public class ETSocket: ETReader, ETWriter {
 		self.readBuffer.destroy(0)
 		self.readBuffer.dealloc(self.readBufferSize)
 	}
+	
+	// MARK: -- SSL
 
+	///
+	/// Initialize the libSSL library
+	///
+	public func initSSL() {
+		
+		SSL_load_error_strings()
+		SSL_library_init()
+		OPENSSL_add_all_algorithms_noconf()
+		
+	}
+	
+	public func createSSLContext(usingCertificate cert: String?, andKey key: String?) throws {
+		
+		self.sslctx = SSL_CTX_new( SSLv23_server_method() )
+		SSL_CTX_ctrl( self.sslctx, SSL_CTRL_OPTIONS, SSL_OP_SINGLE_DH_USE, nil)
+		
+		var certFile: String = cert ?? ETSocket.DEFAULT_SSL_CERTIFICATE
+		let useCert = SSL_CTX_use_certificate_file(self.sslctx, certFile, SSL_FILETYPE_PEM)
+		if useCert <= 0 {
+
+			throw ETSocketError(code: ETSocket.SSL_ERR_BAD_CERTIFICATE, reason: "Could not use certificate file")
+		}
+		
+		var keyFile: String = key ?? ETSocket.DEFAULT_SSL_PRIVATE_KEY
+		let usePrv = SSL_CTX_use_PrivateKey_file(self.sslctx, keyFile, SSL_FILETYPE_PEM)
+		if usePrv <= 0 {
+
+			throw ETSocketError(code: ETSocket.SSL_ERR_BAD_PRIVATE_KEY, reason: "Could not use private key")
+		}
+		
+		self.cssl = SSL_new(self.sslctx)
+		
+		SSL_set_fd(self.cssl, self.sslsocketfd)
+		
+		let sslErr = SSL_accept(self.cssl)
+		if sslErr <= 0 {
+			
+			throw ETSocketError(code: ETSocket.SSL_ERR_CONTEXT_CREATION, reason: "SSL Error code \(sslErr): Problem setting up SSL socket")
+		}
+		
+		
+	}
+	
 	// MARK: Public Methods
 
 	///
@@ -508,9 +525,9 @@ public class ETSocket: ETReader, ETWriter {
 			self.remoteHostName = hostname
 		}
         
-        // establish an SSL connection
+        // Establish an SSL connection
         if (isSSL) {
-            createSSLContext()
+            try createSSLContext(usingCertificate: nil, andKey: nil)
         }
         
 
@@ -913,10 +930,7 @@ public class ETSocket: ETReader, ETWriter {
                 }
                 sent += s
                 
-            }
-            
-			
-			
+            }			
 		}
 	}
 
@@ -928,7 +942,8 @@ public class ETSocket: ETReader, ETWriter {
 	public func writeString(string: String) throws {
 
 		try string.nulTerminatedUTF8.withUnsafeBufferPointer() {
-      // The count returned by nullTerminatedUTF8 includes the null terminator
+			
+			// The count returned by nullTerminatedUTF8 includes the null terminator
 			try self.writeData($0.baseAddress, bufSize: $0.count-1)
 		}
 	}
