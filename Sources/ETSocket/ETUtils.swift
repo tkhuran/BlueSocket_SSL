@@ -14,45 +14,6 @@
 	import Glibc
 #endif
 
-// MARK: String Extensions
-
-public extension String {
-	
-	///
-	/// This function returns an Optional String based on passed C string.
-	///
-	/// - Parameter cs: 	Pointer C string
-	/// - Parameter length:	Length of cs
-	///
-	///	- Returns: An Optional String based on the passed C string
-	///
-	static func fromCString(cs: UnsafePointer<CChar>, length: Int!) -> String?	{
-		
-		guard length != .None else {
-			return String.fromCString(cs)
-		}
-		
-		let buflen = length + 1
-		let buf = UnsafeMutablePointer<CChar>.alloc(buflen)
-		memcpy(buf, cs, length)
-		buf[length] = 0
-		let s = String.fromCString(buf)
-		buf.dealloc(buflen)
-		return s
-	}
-
-	///
-	/// This function converts a String to a C string
-	///
-	/// - Returns: Pointer to a C string **Note: This pointer must be dealloc'd when no longer in use.**
-	///
-	public func toCString() ->UnsafeMutablePointer<Int8> {
-		
-		return strdup(self)
-	}
-
-}
-
 #if os(Linux)
 	
 	/// Replacement for FD_ZERO macro

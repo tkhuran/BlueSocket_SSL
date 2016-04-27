@@ -16,7 +16,6 @@ import Foundation
 import Glibc
 #endif
 
-import SwiftSSL
 import HeliumLogger
 
 // MARK: ETSocketError
