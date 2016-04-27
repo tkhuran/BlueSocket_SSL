@@ -12,7 +12,7 @@ let package = Package(
 	name: "ETSocket",
 	targets: [Target(name: "ETSocket")],
     dependencies: [
-                      .Package(url: "https://github.com/rfdickerson/CCrypto", majorVersion: 0,minor: 1),
+                      .Package(url: "https://github.com/tkhuran/CCryptoSSL.git", majorVersion: 0,minor: 1),
                       .Package(url: "https://github.com/IBM-Swift/HeliumLogger.git", majorVersion: 0, minor: 5),
     ],
 	exclude: ["ETSocket.xcodeproj", "ETSocket.xcworkspace", "README.md", "Sources/Info.plist"]

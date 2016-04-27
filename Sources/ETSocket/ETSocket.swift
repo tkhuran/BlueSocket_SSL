@@ -10,11 +10,11 @@
 #if os(OSX) || os(iOS) || os(tvOS) || os(watchOS)
     import Darwin
     import Foundation
-    import CCrypto
+    import CCryptoOXS
 #elseif os(Linux)
     import Foundation
     import Glibc
-    import CCrypto
+    import CCryptoLinux
 #endif
 
 
