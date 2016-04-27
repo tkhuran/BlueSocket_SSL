@@ -1,231 +1,285 @@
 // !$*UTF8*$!
 {
-    archiveVersion = 1;
-    classes = {};
-    objectVersion = 46;
-    rootObject = __RootObject_;
-    objects = {
-        __RootObject_ = {
-            isa = PBXProject;
-            attributes = {LastUpgradeCheck = 9999;};
-            buildConfigurationList = ___RootConfs_;
-            compatibilityVersion = 'Xcode 3.2';
-            developmentRegion = English;
-            hasScannedForEncodings = 0;
-            knownRegions = (en);
-            mainGroup = ___RootGroup_;
-            productRefGroup = ____Products_;
-            projectDirPath = '';
-            projectRoot = '';
-            targets = (______Target_ETSocket, ______Target_SocketTest);
-        };
-        '__PBXFileRef_Package.swift' = {
-            isa = PBXFileReference;
-            lastKnownFileType = sourcecode.swift;
-            name = 'Package.swift';
-            path = '/IBMInitiatives/Kitura-Apps/BlueSocket_SSL/Package.swift';
-            sourceTree = '<group>';
-        };
-        ___RootGroup_ = {
-            isa = PBXGroup;
-            children = ('__PBXFileRef_Package.swift', _____Sources_, _______Tests_, ____Products_);
-            sourceTree = '<group>';
-        };
-        _______Group_ETSocket = {
-            isa = PBXGroup;
-            name = ETSocket;
-            path = 'Sources/ETSocket';
-            sourceTree = '<group>';
-            children = ('__PBXFileRef_Sources/ETSocket/ETProtocols.swift', '__PBXFileRef_Sources/ETSocket/ETSocket.swift', '__PBXFileRef_Sources/ETSocket/ETUtils.swift');
-        };
-        '__PBXFileRef_Sources/ETSocket/ETProtocols.swift' = {
-            isa = PBXFileReference;
-            lastKnownFileType = sourcecode.swift;
-            name = 'ETProtocols.swift';
-            sourceTree = '<group>';
-        };
-        '__PBXFileRef_Sources/ETSocket/ETSocket.swift' = {
-            isa = PBXFileReference;
-            lastKnownFileType = sourcecode.swift;
-            name = 'ETSocket.swift';
-            sourceTree = '<group>';
-        };
-        '__PBXFileRef_Sources/ETSocket/ETUtils.swift' = {
-            isa = PBXFileReference;
-            lastKnownFileType = sourcecode.swift;
-            name = 'ETUtils.swift';
-            sourceTree = '<group>';
-        };
-        ______Target_ETSocket = {
-            isa = PBXNativeTarget;
-            buildConfigurationList = _______Confs_ETSocket;
-            buildPhases = (CompilePhase_ETSocket, ___LinkPhase_ETSocket);
-            buildRules = ();
-            dependencies = (__Dependency_CCrypto);
-            name = ETSocket;
-            productName = ETSocket;
-            productReference = _____Product_ETSocket;
-            productType = 'com.apple.product-type.library.dynamic';
-        };
-        _____Product_ETSocket = {
-            isa = PBXFileReference;
-            explicitFileType = 'compiled.mach-o.dylib';
-            path = 'ETSocket.dylib';
-            sourceTree = BUILT_PRODUCTS_DIR;
-        };
-        CompilePhase_ETSocket = {
-            isa = PBXSourcesBuildPhase;
-            files = ('__src_cc_ref_Sources/ETSocket/ETProtocols.swift', '__src_cc_ref_Sources/ETSocket/ETSocket.swift', '__src_cc_ref_Sources/ETSocket/ETUtils.swift');
-            runOnlyForDeploymentPostprocessing = 0;
-        };
-        ___LinkPhase_ETSocket = {
-            isa = PBXFrameworksBuildPhase;
-            files = (_LinkFileRef_CCrypto);
-            runOnlyForDeploymentPostprocessing = 0;
-        };
-        '__src_cc_ref_Sources/ETSocket/ETProtocols.swift' = {
-            isa = PBXBuildFile;
-            fileRef = '__PBXFileRef_Sources/ETSocket/ETProtocols.swift';
-        };
-        '__src_cc_ref_Sources/ETSocket/ETSocket.swift' = {
-            isa = PBXBuildFile;
-            fileRef = '__PBXFileRef_Sources/ETSocket/ETSocket.swift';
-        };
-        '__src_cc_ref_Sources/ETSocket/ETUtils.swift' = {
-            isa = PBXBuildFile;
-            fileRef = '__PBXFileRef_Sources/ETSocket/ETUtils.swift';
-        };
-        _LinkFileRef_ETSocket = {
-            isa = PBXBuildFile;
-            fileRef = _____Product_ETSocket;
-        };
-        _______Confs_ETSocket = {
-            isa = XCConfigurationList;
-            buildConfigurations = (___DebugConf_ETSocket, _ReleaseConf_ETSocket);
-            defaultConfigurationIsVisible = 0;
-            defaultConfigurationName = Debug;
-        };
-        ___DebugConf_ETSocket = {
-            isa = XCBuildConfiguration;
-            buildSettings = { DYLIB_INSTALL_NAME_BASE = '$(CONFIGURATION_BUILD_DIR)'; LD_RUNPATH_SEARCH_PATHS = '$(TOOLCHAIN_DIR)/usr/lib/swift/macosx'; PRODUCT_MODULE_NAME = ETSocket; ENABLE_TESTABILITY = YES; OTHER_SWIFT_FLAGS = -DXcode; COMBINE_HIDPI_IMAGES = YES; MACOSX_DEPLOYMENT_TARGET = '10.10'; SWIFT_OPTIMIZATION_LEVEL = -Onone; PRODUCT_NAME = 'lib$(TARGET_NAME)'; };
-            name = Debug;
-        };
-        _ReleaseConf_ETSocket = {
-            isa = XCBuildConfiguration;
-            buildSettings = { DYLIB_INSTALL_NAME_BASE = '$(CONFIGURATION_BUILD_DIR)'; LD_RUNPATH_SEARCH_PATHS = '$(TOOLCHAIN_DIR)/usr/lib/swift/macosx'; PRODUCT_MODULE_NAME = ETSocket; ENABLE_TESTABILITY = YES; OTHER_SWIFT_FLAGS = -DXcode; COMBINE_HIDPI_IMAGES = YES; MACOSX_DEPLOYMENT_TARGET = '10.10'; PRODUCT_NAME = 'lib$(TARGET_NAME)'; };
-            name = Release;
-        };
-        __Dependency_ETSocket = {
-            isa = PBXTargetDependency;
-            target = ______Target_ETSocket;
-        };
-        _______Group_SocketTest = {
-            isa = PBXGroup;
-            name = SocketTest;
-            path = 'Sources/SocketTest';
-            sourceTree = '<group>';
-            children = ('__PBXFileRef_Sources/SocketTest/main.swift');
-        };
-        '__PBXFileRef_Sources/SocketTest/main.swift' = {
-            isa = PBXFileReference;
-            lastKnownFileType = sourcecode.swift;
-            name = 'main.swift';
-            sourceTree = '<group>';
-        };
-        ______Target_SocketTest = {
-            isa = PBXNativeTarget;
-            buildConfigurationList = _______Confs_SocketTest;
-            buildPhases = (CompilePhase_SocketTest, ___LinkPhase_SocketTest);
-            buildRules = ();
-            dependencies = (__Dependency_CCrypto);
-            name = SocketTest;
-            productName = SocketTest;
-            productReference = _____Product_SocketTest;
-            productType = 'com.apple.product-type.tool';
-        };
-        _____Product_SocketTest = {
-            isa = PBXFileReference;
-            explicitFileType = 'compiled.mach-o.executable';
-            path = 'SocketTest';
-            sourceTree = BUILT_PRODUCTS_DIR;
-        };
-        CompilePhase_SocketTest = {
-            isa = PBXSourcesBuildPhase;
-            files = ('__src_cc_ref_Sources/SocketTest/main.swift');
-            runOnlyForDeploymentPostprocessing = 0;
-        };
-        ___LinkPhase_SocketTest = {
-            isa = PBXFrameworksBuildPhase;
-            files = (_LinkFileRef_CCrypto);
-            runOnlyForDeploymentPostprocessing = 0;
-        };
-        '__src_cc_ref_Sources/SocketTest/main.swift' = {
-            isa = PBXBuildFile;
-            fileRef = '__PBXFileRef_Sources/SocketTest/main.swift';
-        };
-        _LinkFileRef_SocketTest = {
-            isa = PBXBuildFile;
-            fileRef = _____Product_SocketTest;
-        };
-        _______Confs_SocketTest = {
-            isa = XCConfigurationList;
-            buildConfigurations = (___DebugConf_SocketTest, _ReleaseConf_SocketTest);
-            defaultConfigurationIsVisible = 0;
-            defaultConfigurationName = Debug;
-        };
-        ___DebugConf_SocketTest = {
-            isa = XCBuildConfiguration;
-            buildSettings = { LD_RUNPATH_SEARCH_PATHS = '$(TOOLCHAIN_DIR)/usr/lib/swift/macosx'; PRODUCT_MODULE_NAME = SocketTest; OTHER_SWIFT_FLAGS = -DXcode; COMBINE_HIDPI_IMAGES = YES; MACOSX_DEPLOYMENT_TARGET = '10.10'; SWIFT_FORCE_STATIC_LINK_STDLIB = NO; SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES; SWIFT_OPTIMIZATION_LEVEL = -Onone; PRODUCT_NAME = '$(TARGET_NAME)'; };
-            name = Debug;
-        };
-        _ReleaseConf_SocketTest = {
-            isa = XCBuildConfiguration;
-            buildSettings = { LD_RUNPATH_SEARCH_PATHS = '$(TOOLCHAIN_DIR)/usr/lib/swift/macosx'; PRODUCT_MODULE_NAME = SocketTest; OTHER_SWIFT_FLAGS = -DXcode; COMBINE_HIDPI_IMAGES = YES; MACOSX_DEPLOYMENT_TARGET = '10.10'; SWIFT_FORCE_STATIC_LINK_STDLIB = NO; SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES; PRODUCT_NAME = '$(TARGET_NAME)'; };
-            name = Release;
-        };
-        __Dependency_SocketTest = {
-            isa = PBXTargetDependency;
-            target = ______Target_SocketTest;
-        };
-        _____Sources_ = {
-            isa = PBXGroup;
-            children = (_______Group_ETSocket, _______Group_SocketTest);
-            name = Sources;
-            sourceTree = '<group>';
-        };
-        _______Tests_ = {
-            isa = PBXGroup;
-            children = ();
-            name = Tests;
-            sourceTree = '<group>';
-        };
-        _______Tests_ = {
-            isa = PBXGroup;
-            children = ();
-            name = Tests;
-            sourceTree = '<group>';
-        };
-        ____Products_ = {
-            isa = PBXGroup;
-            children = (_____Product_ETSocket, _____Product_SocketTest);
-            name = Products;
-            sourceTree = '<group>';
-        };
-        _______Debug_ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {};
-            name = Debug;
-        };
-        _____Release_ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {};
-            name = Release;
-        };
-        ___RootConfs_ = {
-            isa = XCConfigurationList;
-            buildConfigurations = (_______Debug_, _____Release_);
-            defaultConfigurationIsVisible = 0;
-            defaultConfigurationName = Debug;
-        };
-    };
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		__src_cc_ref_Sources/ETSocket/ETProtocols.swift /* ETProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ETSocket/ETProtocols.swift /* ETProtocols.swift */; };
+		__src_cc_ref_Sources/ETSocket/ETSocket.swift /* ETSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ETSocket/ETSocket.swift /* ETSocket.swift */; };
+		__src_cc_ref_Sources/ETSocket/ETUtils.swift /* ETUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/ETSocket/ETUtils.swift /* ETUtils.swift */; };
+		__src_cc_ref_Sources/SocketTest/main.swift /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/SocketTest/main.swift /* main.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		__PBXFileRef_Package.swift /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = "/IBMInitiatives/Kitura-Apps/BlueSocket_SSL/Package.swift"; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ETSocket/ETProtocols.swift /* ETProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETProtocols.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ETSocket/ETSocket.swift /* ETSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETSocket.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/ETSocket/ETUtils.swift /* ETUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETUtils.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/SocketTest/main.swift /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		"_____Product_ETSocket" /* libETSocket.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; path = libETSocket.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		"_____Product_SocketTest" /* SocketTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = SocketTest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		"___LinkPhase_ETSocket" /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		"___LinkPhase_SocketTest" /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		"___RootGroup_" = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_Package.swift /* Package.swift */,
+				"_____Sources_" /* Sources */,
+				"_______Tests_" /* Tests */,
+				"____Products_" /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		"____Products_" /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"_____Product_ETSocket" /* libETSocket.dylib */,
+				"_____Product_SocketTest" /* SocketTest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		"_____Sources_" /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				"_______Group_ETSocket" /* ETSocket */,
+				"_______Group_SocketTest" /* SocketTest */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		"_______Group_ETSocket" /* ETSocket */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_Sources/ETSocket/ETProtocols.swift /* ETProtocols.swift */,
+				__PBXFileRef_Sources/ETSocket/ETSocket.swift /* ETSocket.swift */,
+				__PBXFileRef_Sources/ETSocket/ETUtils.swift /* ETUtils.swift */,
+			);
+			name = ETSocket;
+			path = Sources/ETSocket;
+			sourceTree = "<group>";
+		};
+		"_______Group_SocketTest" /* SocketTest */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_Sources/SocketTest/main.swift /* main.swift */,
+			);
+			name = SocketTest;
+			path = Sources/SocketTest;
+			sourceTree = "<group>";
+		};
+		"_______Tests_" /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"______Target_ETSocket" /* ETSocket */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = "_______Confs_ETSocket" /* Build configuration list for PBXNativeTarget "ETSocket" */;
+			buildPhases = (
+				CompilePhase_ETSocket /* Sources */,
+				"___LinkPhase_ETSocket" /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ETSocket;
+			productName = ETSocket;
+			productReference = "_____Product_ETSocket" /* libETSocket.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		"______Target_SocketTest" /* SocketTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = "_______Confs_SocketTest" /* Build configuration list for PBXNativeTarget "SocketTest" */;
+			buildPhases = (
+				CompilePhase_SocketTest /* Sources */,
+				"___LinkPhase_SocketTest" /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SocketTest;
+			productName = SocketTest;
+			productReference = "_____Product_SocketTest" /* SocketTest */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		__RootObject_ /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = "___RootConfs_" /* Build configuration list for PBXProject "ETSocket" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = "___RootGroup_";
+			productRefGroup = "____Products_" /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"______Target_ETSocket" /* ETSocket */,
+				"______Target_SocketTest" /* SocketTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CompilePhase_ETSocket /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				__src_cc_ref_Sources/ETSocket/ETProtocols.swift /* ETProtocols.swift in Sources */,
+				__src_cc_ref_Sources/ETSocket/ETSocket.swift /* ETSocket.swift in Sources */,
+				__src_cc_ref_Sources/ETSocket/ETUtils.swift /* ETUtils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CompilePhase_SocketTest /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				__src_cc_ref_Sources/SocketTest/main.swift /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		_ReleaseConf_ETSocket /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_INSTALL_NAME_BASE = "$(CONFIGURATION_BUILD_DIR)";
+				ENABLE_TESTABILITY = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_MODULE_NAME = ETSocket;
+				PRODUCT_NAME = "lib$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		_ReleaseConf_SocketTest /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_MODULE_NAME = SocketTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+			};
+			name = Release;
+		};
+		"___DebugConf_ETSocket" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_INSTALL_NAME_BASE = "$(CONFIGURATION_BUILD_DIR)";
+				ENABLE_TESTABILITY = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_MODULE_NAME = ETSocket;
+				PRODUCT_NAME = "lib$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		"___DebugConf_SocketTest" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_MODULE_NAME = SocketTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		"_____Release_" /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		"_______Debug_" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		"___RootConfs_" /* Build configuration list for PBXProject "ETSocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"_______Debug_" /* Debug */,
+				"_____Release_" /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		"_______Confs_ETSocket" /* Build configuration list for PBXNativeTarget "ETSocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"___DebugConf_ETSocket" /* Debug */,
+				_ReleaseConf_ETSocket /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		"_______Confs_SocketTest" /* Build configuration list for PBXNativeTarget "SocketTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"___DebugConf_SocketTest" /* Debug */,
+				_ReleaseConf_SocketTest /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = __RootObject_ /* Project object */;
 }
